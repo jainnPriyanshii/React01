@@ -4,7 +4,10 @@ export const TodoContext = createContext({
     todos:[
         {
             id:1,
-            todo :"Todo msg",
+            title: "",
+            description:"",
+            todo :"Todo Msg",
+            duedate : "",
             completed : false,
         }
     ],

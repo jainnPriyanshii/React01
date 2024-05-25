@@ -5,29 +5,64 @@ import TodoForm from './Components/TodoForm'
 import TodoItem from './Components/TodoItems'
 
 function App() {
-  const [todos, setTodos] = useState([])
-  const addTodo = (todo) => {
-    setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev])
-  }
+  // const [todos, setTodos] = useState([])
+  // const addTodo = (todo) => {
+  //   setTodos((prev) => [{ id: Date.now(), ...todo }, ...prev])
+  // }
 
-  const updateTodo = (id, todo) => {
-    setTodos((prev) => prev.map((prevTodo) => (prevTodo === id ? todo : prevTodo)))
-  }
+  // const updateTodo = (id, todo) => {
+  //   setTodos((prev) => prev.map((prevTodo) => (prevTodo === id ? todo : prevTodo)))
+  // }
 
-  const deleteTodo = (id) => {
-    setTodos((prev) => prev.filter((todo) => todo.id !== id))
-  }
+  // const deleteTodo = (id) => {
+  //   setTodos((prev) => prev.filter((todo) => todo.id !== id))
+  // }
 
-  const toggleComplete = (id) => {
-    setTodos((prev) => prev.map((prevTodo) =>prevTodo.id === id? {...prevTodo,  completed : !prevTodo.completed} : prevTodo ))
-  }
+  // const toggleComplete = (id) => {
+  //   setTodos((prev) => prev.map((prevTodo) =>prevTodo.id === id? {...prevTodo,  completed : !prevTodo.completed} : prevTodo ))
+  //  }
+
+
+  
+
+
+
+
+  const [tasks, setTasks] = useState([]);
+    const [newTask, setNewTask] = useState({ title: '', description: '',tasks:'',duedate:'',status:'' });
+
+    useEffect(() => {
+        fetchTasks();
+    }, []);
+
+    const fetchTasks = async () => {
+        const response = await getTasks();
+        setTasks(response.data);
+    };
+
+    const addTodo = async () => {
+        await addTodo(newTask);
+        fetchTasks();
+        setNewTask({ title: '', description: '', duedate:'', });
+    };
+
+    const UpdateTodo = async (id) => {
+        const updatedTodo = { ...newTask, completed: true }; 
+        await UpdateTodo(id, updatedTodo);
+        fetchTasks();
+    };
+
+    const deleteTodo = async (id) => {
+        await deleteTodo(id);
+        fetchTasks();
+    };
 
   
 
 
 
   return (
-    <TodoProvider value={{ todos, addTodo, updateTodo, deleteTodo,toggleComplete }}>
+    <TodoProvider value={{ todos, addTodo, UpdateTodo, deleteTodo,toggleComplete }}>
       <div className="bg-[#172842] min-h-screen py-8">
         <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg px-4 py-3 text-white">
           <h1 className="text-2xl font-bold text-center mb-8 mt-2">Manage Your Todos</h1>
